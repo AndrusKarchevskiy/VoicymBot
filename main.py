@@ -45,7 +45,7 @@ async def get_user_data(message: bot.SimpleBotEvent) -> dict:
     return user_params
 
 
-@bot.message_handler(bot.text_filter(['начать', 'start']))
+@bot.message_handler(bot.text_filter(['начать', 'start', 'привет', 'hi']))
 async def send_welcome(message: bot.SimpleBotEvent):
     user_data = await get_user_data(message)
     await db.add_new_user(user_id=user_data['id'], user_name=user_data['full_name'])
