@@ -26,9 +26,7 @@ async def convert_mp3_to_wav(user_id: int, quantity_sent_this_type_of_files: int
     sound = AudioSegment.from_mp3(src)
     sound.export(dst, format="wav")
 
-    path = os.path.join(os.path.abspath(os.path.dirname(__file__)).replace('recognition_audio', ''),
-                        src.replace('/', '\\'))
-    delete_file(path)
+    delete_file(path=src)
 
 
 def delete_file(path):
