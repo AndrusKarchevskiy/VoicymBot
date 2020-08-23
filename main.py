@@ -77,7 +77,7 @@ async def send_text_from_voice(event: SimpleBotEvent):
                     quantity_sent_audio_files = await db.get_user_param(user_id=user_data['id'],
                                                                         column='sent_audio_files')
 
-                    file_manager.download_audio(url, user_data['id'], quantity_sent_audio_files)
+                    await file_manager.download_audio(url, user_data['id'], quantity_sent_audio_files)
 
                     await event.answer(text_generator.get_text_from_voice(user_data["id"], quantity_sent_audio_files))
                     file_manager.delete_file(path=f'data/voices/users_voices/{user_data["id"]}_'
@@ -179,7 +179,6 @@ async def send_ready_mem(event: SimpleBotEvent):
         await event.answer(temp_msgs.tell_arg_not_correct())
     # Если заходим сюда -> сообщение от юзера корректно
     except IndexError:
-        await event.answer(temp_msgs.tell_arg_correct(), keyboard=DEFAULT_MARKUP)
 
         mem_file_path = combinator.mem_file_path_former(mem_name=user_data['text_from_message'])
         if mem_file_path is None:
@@ -194,7 +193,8 @@ async def send_ready_mem(event: SimpleBotEvent):
 
             mem_path = f"data/voices/ready_mems/{user_data['id']}_{quantity_sent_audios}_mono.ogg"
             mem = await uploader.get_attachment_from_path(peer_id=user_data["id"], file_path=mem_path)
-            await api.get_context().messages.send(user_id=user_data["id"], attachment=mem, random_id=0)
+            await api.get_context().messages.send(user_id=user_data["id"], attachment=mem, random_id=0,
+                                                  keyboard=DEFAULT_MARKUP)
 
             file_manager.delete_file(path=voice_file_path)
             file_manager.delete_file(path=mem_path)
@@ -226,7 +226,7 @@ async def send_mem_keyboard(event: SimpleBotEvent):
                     quantity_sent_audio_files = await db.get_user_param(user_id=user_data['id'],
                                                                         column='sent_audio_files')
 
-                    file_manager.download_audio(url, user_data['id'], quantity_sent_audio_files)
+                    await file_manager.download_audio(url, user_data['id'], quantity_sent_audio_files)
 
                     await event.answer(temp_msgs.tell_to_choose_mem(), keyboard=MEMS_MARKUP)
                     await fsm.finish(event=event, for_what=ForWhat.FOR_USER)
@@ -249,12 +249,11 @@ async def send_ready_mem(event: SimpleBotEvent):
         await event.answer(temp_msgs.tell_arg_not_correct())
     # Если заходим сюда -> сообщение от юзера корректно
     except IndexError:
-        await event.answer(temp_msgs.tell_arg_correct(), keyboard=DEFAULT_MARKUP)
-
         mem_preset_path = combinator.mem_file_path_former(mem_name=user_data['text_from_message'])
         if mem_preset_path is None:
             await event.answer(temp_msgs.tell_to_push_button())
         else:
+            await event.answer(temp_msgs.tell_arg_correct())
             quantity_sent_audios = await db.get_user_param(user_id=user_data['id'], column='sent_audio_files')
             voice_file_path = f"data/voices/users_voices/{user_data['id']}_{quantity_sent_audios}.wav"
             combinator.combine_audio_segments(
@@ -264,13 +263,19 @@ async def send_ready_mem(event: SimpleBotEvent):
             mem_path = f"data/voices/ready_mems/{user_data['id']}_{quantity_sent_audios}_mono.ogg"
 
             mem = await uploader.get_attachment_from_path(peer_id=user_data["id"], file_path=mem_path)
-            await api.get_context().messages.send(user_id=user_data["id"], attachment=mem, random_id=0)
+            await api.get_context().messages.send(user_id=user_data["id"], attachment=mem, random_id=0,
+                                                  keyboard=DEFAULT_MARKUP)
 
             file_manager.delete_file(path=mem_path)
             file_manager.delete_file(path=mem_path.replace('mono', 'stereo'))
             file_manager.delete_file(path=voice_file_path)
 
             await fsm.finish(event=event, for_what=ForWhat.FOR_USER)
+
+
+@bot.message_handler()
+async def send_markup_on_wrong_message(event: SimpleBotEvent):
+    await event.answer(temp_msgs.tell_to_push_button(), keyboard=DEFAULT_MARKUP)
 
 
 bot.run_forever()

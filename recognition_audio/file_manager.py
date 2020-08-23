@@ -1,12 +1,18 @@
 import os
 import requests
 from pydub import AudioSegment
+import aiohttp
+import aiofiles
 
 
-def download_audio(url: str, user_id: int, quantity_sent_this_type_of_files: int):
-    req = requests.get(url, stream=True)
-    with open(f'data/voices/users_voices/{user_id}_{quantity_sent_this_type_of_files}.mp3', 'wb') as file:
-        file.write(req.content)
+async def download_audio(url: str, user_id: int, quantity_sent_this_type_of_files: int):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as resp:
+            if resp.status == 200:
+                f = await aiofiles.open(f'data/voices/users_voices/{user_id}_{quantity_sent_this_type_of_files}.mp3',
+                                        mode='wb')
+                await f.write(await resp.read())
+                await f.close()
 
     convert_mp3_to_wav(user_id=user_id, quantity_sent_this_type_of_files=quantity_sent_this_type_of_files)
 
