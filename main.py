@@ -200,8 +200,6 @@ async def send_ready_mem(event: SimpleBotEvent):
             file_manager.delete_file(path=mem_path.replace('mono', 'stereo'))
 
 
-
-
 @bot.message_handler(bot.text_filter('аудио ➡ аудио-мем'))
 async def tell_to_send_text_to_make_mem(event: SimpleBotEvent):
     await fsm.set_state(event=event, state=GetterMemAudio.mem_audio, for_what=ForWhat.FOR_USER)
@@ -252,7 +250,8 @@ async def send_ready_mem(event: SimpleBotEvent):
         if mem_preset_path is None:
             await event.answer(temp_msgs.tell_to_push_button())
         else:
-            await event.answer(temp_msgs.tell_arg_correct())
+            await fsm.finish(event=event, for_what=ForWhat.FOR_USER)
+            await event.answer(temp_msgs.tell_arg_correct(), keyboard=DEFAULT_MARKUP)
             quantity_sent_audios = await db.get_user_param(user_id=user_data['id'], column='sent_audio_files')
             voice_file_path = f"data/voices/users_voices/{user_data['id']}_{quantity_sent_audios}.wav"
             combinator.combine_audio_segments(
@@ -261,14 +260,11 @@ async def send_ready_mem(event: SimpleBotEvent):
             mem_path = f"data/voices/ready_mems/{user_data['id']}_{quantity_sent_audios}_mono.ogg"
 
             mem = await uploader.get_attachment_from_path(peer_id=user_data["id"], file_path=mem_path)
-            await api.get_context().messages.send(user_id=user_data["id"], attachment=mem, random_id=0,
-                                                  keyboard=DEFAULT_MARKUP)
+            await api.get_context().messages.send(user_id=user_data["id"], attachment=mem, random_id=0)
 
             file_manager.delete_file(path=mem_path)
             file_manager.delete_file(path=mem_path.replace('mono', 'stereo'))
             file_manager.delete_file(path=voice_file_path)
-
-            await fsm.finish(event=event, for_what=ForWhat.FOR_USER)
 
 
 @bot.message_handler()
