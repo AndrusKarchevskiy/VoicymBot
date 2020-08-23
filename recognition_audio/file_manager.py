@@ -1,5 +1,4 @@
 import os
-import requests
 from pydub import AudioSegment
 import aiohttp
 import aiofiles
@@ -14,11 +13,13 @@ async def download_audio(url: str, user_id: int, quantity_sent_this_type_of_file
                 await f.write(await resp.read())
                 await f.close()
 
-    convert_mp3_to_wav(user_id=user_id, quantity_sent_this_type_of_files=quantity_sent_this_type_of_files)
+    await convert_mp3_to_wav(user_id=user_id, quantity_sent_this_type_of_files=quantity_sent_this_type_of_files)
 
 
-def convert_mp3_to_wav(user_id: int, quantity_sent_this_type_of_files: int):
-    with open(f"data/voices/users_voices/{user_id}_{quantity_sent_this_type_of_files}.wav", 'wb'): pass
+async def convert_mp3_to_wav(user_id: int, quantity_sent_this_type_of_files: int):
+    async with aiofiles.open(f"data/voices/users_voices/{user_id}_{quantity_sent_this_type_of_files}.wav", mode='wb'):
+        pass
+
     src = f"data/voices/users_voices/{user_id}_{quantity_sent_this_type_of_files}.mp3"
     dst = f"data/voices/users_voices/{user_id}_{quantity_sent_this_type_of_files}.wav"
 

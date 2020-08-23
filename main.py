@@ -184,23 +184,22 @@ async def send_ready_mem(event: SimpleBotEvent):
         if mem_file_path is None:
             await event.answer(temp_msgs.tell_to_push_button())
         else:
+            await fsm.finish(event=event, for_what=ForWhat.FOR_USER)
             quantity_sent_audios = await db.get_user_param(user_id=user_data['id'], column='sent_texts')
             voice_file_path = f"data/voices/bot_voices/{user_data['id']}_{quantity_sent_audios}.wav"
-            combinator.combine_audio_segments(voice_file_path=voice_file_path,
-                                              mem_file_path=mem_file_path,
+            combinator.combine_audio_segments(mem_file_path=mem_file_path,
                                               user_id=user_data['id'],
                                               quantity_sent_audios=quantity_sent_audios)
-
+            await event.answer(temp_msgs.tell_arg_correct(), keyboard=DEFAULT_MARKUP)
             mem_path = f"data/voices/ready_mems/{user_data['id']}_{quantity_sent_audios}_mono.ogg"
             mem = await uploader.get_attachment_from_path(peer_id=user_data["id"], file_path=mem_path)
-            await api.get_context().messages.send(user_id=user_data["id"], attachment=mem, random_id=0,
-                                                  keyboard=DEFAULT_MARKUP)
+            await api.get_context().messages.send(user_id=user_data["id"], attachment=mem, random_id=0)
 
             file_manager.delete_file(path=voice_file_path)
             file_manager.delete_file(path=mem_path)
             file_manager.delete_file(path=mem_path.replace('mono', 'stereo'))
 
-            await fsm.finish(event=event, for_what=ForWhat.FOR_USER)
+
 
 
 @bot.message_handler(bot.text_filter('аудио ➡ аудио-мем'))
@@ -257,8 +256,7 @@ async def send_ready_mem(event: SimpleBotEvent):
             quantity_sent_audios = await db.get_user_param(user_id=user_data['id'], column='sent_audio_files')
             voice_file_path = f"data/voices/users_voices/{user_data['id']}_{quantity_sent_audios}.wav"
             combinator.combine_audio_segments(
-                mem_file_path=mem_preset_path, user_id=user_data['id'], quantity_sent_audios=quantity_sent_audios,
-                voice_file_path=voice_file_path)
+                mem_file_path=mem_preset_path, user_id=user_data['id'], quantity_sent_audios=quantity_sent_audios)
 
             mem_path = f"data/voices/ready_mems/{user_data['id']}_{quantity_sent_audios}_mono.ogg"
 

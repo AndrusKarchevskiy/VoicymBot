@@ -2,7 +2,7 @@ import ffmpeg
 from pydub import AudioSegment
 
 
-def combine_audio_segments(voice_file_path: str, mem_file_path: str, user_id: int, quantity_sent_audios: int):
+def combine_audio_segments(mem_file_path: str, user_id: int, quantity_sent_audios: int):
     try:
         voice = AudioSegment.from_file(f"data/voices/bot_voices/{user_id}_{quantity_sent_audios}.wav")
     except FileNotFoundError:
@@ -13,7 +13,6 @@ def combine_audio_segments(voice_file_path: str, mem_file_path: str, user_id: in
     ogg_path = f"data/voices/ready_mems/{user_id}_{quantity_sent_audios}_stereo.ogg"
     ready_mem.export(ogg_path, format="ogg")
 
-    # Без этого эта хуйня (вк) не работает (без перевода в моно-режим)!!!
     ffmpeg.input(f"data/voices/ready_mems/{user_id}_{quantity_sent_audios}_stereo.ogg").output(
         f"data/voices/ready_mems/{user_id}_{quantity_sent_audios}_mono.ogg", ac=1).run()
 
