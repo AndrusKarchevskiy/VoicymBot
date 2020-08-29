@@ -24,6 +24,15 @@ All used modules and libs you can check in project or at requirements.txt
 
 `GROUP_ID` -- get it in your VK-group
 
+5) Install ESpeak:
+
+On Linux (Unix): `apt-get install espeak` 
+
+On Windows: 
+
+1) Install .exe file: http://espeak.sourceforge.net/download.html
+
+2) Add *your_path_to_eSpeak\eSpeak\command_line\espeak.exe to PATH*
 
 **Links**
 
