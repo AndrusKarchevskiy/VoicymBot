@@ -30,11 +30,19 @@ On Linux (Unix): `apt-get install espeak`
 
 On Windows: 
 
-1) Install .exe file: http://espeak.sourceforge.net/download.html
+5.1) Install .exe file: http://espeak.sourceforge.net/download.html
 
-2) Add *your_path_to_eSpeak\eSpeak\command_line\espeak.exe to PATH*
+5.2) Add *your_path_to_eSpeak\eSpeak\command_line\espeak.exe to PATH*
 
-**Links**
+6) Install ffmpeg plugin:
+
+On Linux (Unix): `apt-get install ffmpeg`
+
+On Windows: 
+
+follow the instructions: http://blog.gregzaal.com/how-to-install-ffmpeg-on-windows/
+
+бютбют**Links**
 
 Bot in the internal VK' search: Войсим Бот.
 
