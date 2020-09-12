@@ -42,7 +42,7 @@ On Windows:
 
 follow the instructions: http://blog.gregzaal.com/how-to-install-ffmpeg-on-windows/
 
-бютбют**Links**
+**Links**
 
 Bot in the internal VK' search: Войсим Бот.
 
