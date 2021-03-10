@@ -12,7 +12,7 @@ All used modules and libs you can check in project or at requirements.txt
 
 **Installation:** 
 
-1) *git clone https://github.com/AndrusKarchevskiy/VoicymBot* 
+1) *git clone https://github.com/karchx/VoicymBot* 
 
 2) *pip install -r requirements.txt*
 
@@ -44,8 +44,8 @@ follow the instructions: http://blog.gregzaal.com/how-to-install-ffmpeg-on-windo
 
 **Links**
 
-Bot in the internal VK' search: Войсим Бот.
+Bot in the internal VK' search: `now deactivated`.
 
-Bot's Link in browser: https://vk.com/Voicym.
+Bot's Link in browser: `now deactivated`.
 
-Link on Github: https://github.com/AndrusKarchevskiy/VoicymBot.
+Link on Github: https://github.com/karchx/VoicymBot.
