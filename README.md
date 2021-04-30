@@ -12,7 +12,7 @@ All used modules and libs you can check in project or at requirements.txt
 
 **Installation:** 
 
-1) *git clone https://github.com/AndrusKarchevskiy/VoicymBot* 
+1) *git clone https://github.com/karchx/VoicymBot* 
 
 2) *pip install -r requirements.txt*
 
@@ -24,11 +24,28 @@ All used modules and libs you can check in project or at requirements.txt
 
 `GROUP_ID` -- get it in your VK-group
 
+5) Install ESpeak:
+
+On Linux (Unix): `apt-get install espeak` 
+
+On Windows: 
+
+5.1) Install .exe file: http://espeak.sourceforge.net/download.html
+
+5.2) Add *your_path_to_eSpeak\eSpeak\command_line\espeak.exe to PATH*
+
+6) Install ffmpeg plugin:
+
+On Linux (Unix): `apt-get install ffmpeg`
+
+On Windows: 
+
+follow the instructions: http://blog.gregzaal.com/how-to-install-ffmpeg-on-windows/
 
 **Links**
 
-Bot in the internal VK' search: Войсим Бот.
+Bot in the internal VK' search: `now deactivated`.
 
-Bot's Link in browser: https://vk.com/Voicym.
+Bot's Link in browser: `now deactivated`.
 
-Link on Github: https://github.com/AndrusKarchevskiy/VoicymBot.
+Link on Github: https://github.com/karchx/VoicymBot.
