@@ -49,3 +49,7 @@ Bot in the internal VK' search: `now deactivated`.
 Bot's Link in browser: `now deactivated`.
 
 Link on Github: https://github.com/karchx/VoicymBot.
+
+**Bot preview**
+
+![ff](https://user-images.githubusercontent.com/62261985/116718179-5fce7100-a9e2-11eb-95c2-b29ed1921740.jpg)
